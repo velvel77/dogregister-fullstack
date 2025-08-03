@@ -1,0 +1,19 @@
+# Ignore build outputs
+/api/target/
+/dist/
+/out/
+
+# IDE files
+*.iml
+.idea/
+.vscode/
+.project
+.classpath
+.settings/
+
+# Logs & OS files
+*.log
+.DS_Store
+
+# Node / Angular
+node_modules/
