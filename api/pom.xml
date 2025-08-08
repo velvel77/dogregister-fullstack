@@ -54,7 +54,7 @@
 			<version>3.1.0</version>
 		</dependency>
 
-		<!-- PostgreS Database -->
+		<!-- PostgreSQL Database -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -74,11 +74,18 @@
 			<version>11.10.5</version>
 		</dependency>
 
-		<!-- PostgreSQL driver -->
+		<!-- PostgreSQL support for Flyway -->
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+			<version>11.10.5</version>
+		</dependency>
+
+		<!-- H2 for test database -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
