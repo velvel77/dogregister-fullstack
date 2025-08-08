@@ -6,7 +6,6 @@ CREATE TABLE dog (
     breed VARCHAR(255),
     age INTEGER,
     weight NUMERIC(5,2),
-    weight NUMERIC(5,2),
     tail_length NUMERIC(5,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
