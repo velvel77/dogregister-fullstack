@@ -5,33 +5,137 @@ trigger:
   paths:
     include:
       - api/**
+      - dogregister-ui/**
       - azure-pipelines.yml
 
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - api/**
+      - dogregister-ui/**
+      - azure-pipelines.yml
+
+#Runner
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
+# ------------ Variables -----------
 variables:
+  #Tooling
+  JAVA_VERSION: '1.17'
+  NODE_VERSION: '20.x'
+
+#Caches
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2
+  NPM_CACHE_FOLDER: $(Pipeline.Workspace)/.npm
 
-steps:
-  - task: Cache@2
-    inputs:
-      key: 'maven | "$(Agent.OS)" | api/pom.xml'
-      restoreKeys: 'maven | "$(Agent.OS)"'
-      path: $(MAVEN_CACHE_FOLDER)
+#Paths
+  API_DIR: 'api'
+  UI_DIR: 'dogregister-ui'
+  UI_DIST_DIR: 'dogregister-ui/dist/dogregister-ui' #Location for creating Angular SSR /browser and /server
+
+stages:
+- stage: Build_Test
+  displayName: "Build & Test (Backend + Frontend)"
+  jobs:
 
 
-  - task: Maven@4
-    displayName: 'Build & test (Java 17)'
-    inputs:
-      mavenPomFile: 'api/pom.xml'
-      goals: 'clean verify'
-      options: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
-      jdkVersionOption: '1.17'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+  # ------------ Backend job -----------
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: 'api/target'
-      ArtifactName: 'api-target'
+  - job: backend
+    displayName: "API • Maven Build & Test"
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+        fetchDepth: 0
+
+      - task: Cache@2 
+        displayName: "Cache Maven Repo"
+        inputs:
+          key: 'maven | "$(Agent.OS)" | $(API_DIR)/pom.xml'
+          restoreKeys: |
+            maven | "$(Agent.OS)"
+          path: $(MAVEN_CACHE_FOLDER)
+        
+      - task: Maven@4
+        displayName: 'mvn clean verify (Java 17)'
+        inputs:
+          mavenPomFile: '$(API_DIR)/pom.xml'
+          goals: 'clean verify'
+          options: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+          jdkVersionOption: '1.17'
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish API artifact (target/)"
+        inputs:
+          PathtoPublish: '$(API_DIR)/target'
+          ArtifactName: 'api-target'
+          publishLocation: 'Container'
+
+  # ------------ Frontend job -----------
+  - job: frontend
+    displayName: "UI • Angular Build (SSR)"
+    dependsOn: [] #Run in parallel
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+        fetchDepth: 0
+
+      - task: NodeTool@0
+        displayName: "Use Node $(NODE_VERSION)"
+        inputs:
+          versionSpec: '$(NODE_VERSION)'
+        
+      - script: |
+          node -v
+          npm -v
+        displayName: "Node & npm versions"
+      
+      #Cache npm's cache directory (NOT node_modules) keyed on lockfile
+      - task: Cache@2
+        displayName: "Cache npm cache dir"
+        inputs:
+          key: 'npm-cache | "$(Agent.OS)" | $(UI_DIR)/package-lock.json'
+          restoreKeys: |
+            npm-cache | "$(Agent.OS)"
+          path: $(NPM_CACHE_FOLDER)
+
+      #Clean, install with clean lockfile using the shared cache directory
+      - script: |
+          cd $(UI_DIR)
+          npm config set cache "$(NPM_CACHE_FOLDER)" --global
+          npm ci
+        displayName: "npm ci (install deps)"
+
+      #Build SSR (both browser & server bundles)
+      - script: |
+          cd $(UI_DIR)
+          npm run build:ssr
+        displayName: "npm run build:ssr"
+
+      # TODO: run unit tests (headless) in pipeline
+      # - script: |
+      #     cd $(UI_DIR)
+      #     npm run test -- --watch=false --browsers=ChromeHeadless
+      #   displayName: "ng test (headless)"
+      # - task: PublishTestResults@2
+      #   inputs:
+      #     testResultsFormat: JUnit
+      #     testResultsFiles: '**/junit-*.xml'
+      #   condition: succeededOrFailed()
+
+
+      #Publish the SSR dist (contains /browser and /server)
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish UI artifact (dist/dogregister-ui)"
+        inputs:
+          PathtoPublish: '$(UI_DIST_DIR)'
+          ArtifactName: 'ui-dist'
+          publishLocation: 'Container'
