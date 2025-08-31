@@ -3,6 +3,7 @@ package io.github.velvel77.dogregister.api.controller;
 import io.github.velvel77.dogregister.api.model.Dog;
 import io.github.velvel77.dogregister.api.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +26,12 @@ public class DogController {
         return dogRepository.save(dog);
     }
 
+    //Returns
     @GetMapping("/{id}")
-    public Dog getDogById(@PathVariable Long id) {
-        return dogRepository.findById(id).orElse(null);
+    public ResponseEntity<Dog> getDogById(@PathVariable Long id) {
+        return dogRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
