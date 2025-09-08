@@ -1,9 +1,33 @@
 <h1 class="heading">Welcome to Dog Register!</h1>
+<!-- Add Dog button -->
+<button type="button" (click)="openDialog()">Add Dog</button>
+<!-- Modal Creation-->
+<dialog #dogDialog>
+    <h2>Add a new dog</h2>
+    <form [formGroup]="form" (ngSubmit)="onCreate()">
+        <label>
+            Name <input type="text" formControlName="name" required />
+        </label>
+        <label>
+            Breed <input type="text" formControlName="breed" required />
+        </label>
+        <label>
+            Age <input type="number" formControlName="age" min="0" required />
+        </label>
+        <label>
+            Weight (kg) <input type="number" formControlName="weight" min="0" required />
+        </label>
+        <menu>
+            <button type="submit" [disabled]="form.invalid || creating">Save</button>
+            <button type="button" (click)="closeDialog()">Cancel</button>
+        </menu>
+    </form>
+</dialog>
 <!-- List of registered dogs -->
 <ng-container *ngIf="dogs$ | async as dogs; else loading">
     <p *ngIf="dogs.length === 0" class="muted">No dogs registered yet.</p>
     <!-- Wrapper for list -->
-     <section class="table-region" aria-label="Registered dogs">
+    <section class="table-region" aria-label="Registered dogs">
         <table class="dog-table">
             <caption class="sr-only">Registered dogs</caption>
             <thead>
@@ -17,7 +41,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let d of dogs; trackBy: trackByName">
-                    <td class="Name">{{ d.name }}</td>
+                    <td class="name">{{ d.name }}</td>
                     <td>{{ d.breed }}</td>
                     <td>{{ d.age }}</td>
                     <td>{{ d.weight }} kg</td>
@@ -25,7 +49,7 @@
                 </tr>
             </tbody>
         </table>
-     </section>
+    </section>
 </ng-container>
 <!-- index.html -->
 <ng-template #loading>
