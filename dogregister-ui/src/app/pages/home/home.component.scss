@@ -1,4 +1,3 @@
-
 //Headings
 .heading {
     font-family: 'DM Serif Display', serif;
@@ -20,12 +19,46 @@
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
+dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+//Creates a 2 column style modal
+dialog form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-weight: 600;
+}
+
+dialog label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+}
+
+menu {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
 .dog-table {
     width: 100%;
     border-collapse: seperate;
     border-spacing: 0;
-    background: #fff;
-    border: 1px solid #e0ecef;
+    background: #ffffff;
+    border: 1px solid #efe0ee;
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,.04);
     font-family: Helvetica, Arial, sans-serif;

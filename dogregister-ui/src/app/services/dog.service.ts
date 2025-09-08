@@ -18,7 +18,7 @@ export class DogService {
     return this.http.get<Dog[]>(this.apiUrl);
   }
 
-  createDog(dog: Dog): Observable<Dog> {
+  createDog(dog: CreateDog): Observable<Dog> {
     return this.http.post<Dog>(this.apiUrl, dog);
   }
 
