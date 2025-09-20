@@ -19,7 +19,7 @@ export class HomeComponent {
 
   @ViewChild('dogDialog') dogDialog!: ElementRef<HTMLDialogElement>;
 
-  trackByName = (_: number, d: Dog) => d.name;
+  trackByDogId = (_: number, d: Dog) => d.id;
   
   constructor(private dogService: DogService, private fb: FormBuilder ) {}
 
@@ -62,6 +62,10 @@ export class HomeComponent {
       error: (e) => console.error(e),
       complete: () => (this.creating = false),
     });
+  }
+
+  onDelete(id: number) {
+    
   }
 
 }

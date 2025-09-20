@@ -40,12 +40,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let d of dogs; trackBy: trackByName">
+                <tr *ngFor="let d of dogs; trackBy: trackByDogId">
                     <td class="name">{{ d.name }}</td>
                     <td>{{ d.breed }}</td>
                     <td>{{ d.age }}</td>
                     <td>{{ d.weight }} kg</td>
-                    <td>{{ d.tailLength | number:'1.1-1' }}</td>
+                    <td>{{ d.tailLength | number:'1.1-1' }} cm</td>
+                    <td>
+                        <button type="button"
+                                class="btn-delete"
+                                (click)="onDelete(d.id)"
+                                aria-label="Delete {{d.name }}">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
