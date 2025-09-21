@@ -23,6 +23,14 @@
         </menu>
     </form>
 </dialog>
+<dialog #confirmDialog>
+    <h3>Delete dog?</h3>
+    <p *ngIf="pendingDeleteName">Are you sure you want to delete <strong>{{pendingDeleteName }}</strong></p>
+    <menu>
+        <button type="button" class="btn-delete" (click)="confirmDelete()">Delete</button>
+        <button type="button" (click)="cancelDelete()">Cancel</button>
+    </menu>
+</dialog>
 <!-- List of registered dogs -->
 <ng-container *ngIf="dogs$ | async as dogs; else loading">
     <p *ngIf="dogs.length === 0" class="muted">No dogs registered yet.</p>
@@ -37,15 +45,24 @@
                     <th scope="col">Age</th>
                     <th scope="col">Weight</th>
                     <th scope="col">Tail Length</th>
+                    <th scope="col" class="action header"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let d of dogs; trackBy: trackByName">
+                <tr *ngFor="let d of dogs; trackBy: trackByDogId">
                     <td class="name">{{ d.name }}</td>
                     <td>{{ d.breed }}</td>
                     <td>{{ d.age }}</td>
                     <td>{{ d.weight }} kg</td>
-                    <td>{{ d.tailLength | number:'1.1-1' }}</td>
+                    <td>{{ d.tailLength | number:'1.1-1' }} cm</td>
+                    <td>
+                        <button type="button"
+                                class="btn-delete"
+                                (click)="askDelete(d)"
+                                [attr.aria-label]="'Delete ' + d.name">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
