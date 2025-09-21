@@ -88,6 +88,18 @@ menu {
   tbody tr:last-child td:last-child  { border-bottom-right-radius: 12px; }
 }
 
+.btn-delete {
+  appearance: none;
+  border: 1px solid #e03131;
+  background: #fff5f5;
+  color: #e03131;
+  padding: .35rem .6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.btn-delete:hover { background: #ffe3e3; }
+
 //Body+nav
 body, p, li, nav {
     font-family: Helvetica, Arial, sans-serif

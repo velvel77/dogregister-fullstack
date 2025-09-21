@@ -23,9 +23,7 @@ public class Dog {
     //TODO: implement owner
     //private Owner ownerForDog
 
-    public Dog() {
-
-    }
+    public Dog() {}
 
     public Dog(String name, String breed, int age, int weight) {
         this.name = name.toUpperCase();
@@ -40,6 +38,9 @@ public class Dog {
     //TODO implement getOwner()
 
     //Getters
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getName() {
         return name;
