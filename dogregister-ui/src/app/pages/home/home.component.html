@@ -1,10 +1,13 @@
-<h1 class="heading">Welcome to Dog Register!</h1>
+<h1 class="welcome-heading">Welcome to Dog Register!</h1>
 <!-- Add Dog button -->
-<button type="button" (click)="openDialog()">Add Dog</button>
+<button type="button" class="btn-add-dog" (click)="openDialog()">Add Dog</button>
 <!-- Modal Creation-->
-<dialog #dogDialog>
-    <h2>Add a new dog</h2>
-    <form [formGroup]="form" (ngSubmit)="onCreate()">
+<dialog #dogDialog aria-labelledby="addDogTitle" aria-modal="true">
+    <header class="modal-header">
+        <h2 id="addDogTitle">Add a new dog</h2>
+        <button type="button" class="btn-close" (click)="closeDialog()" aria-label="Close dialog">x</button>
+    </header>
+    <form [formGroup]="form" (ngSubmit)="onCreate()" class="modal-form">
         <label>
             Name <input type="text" formControlName="name" required />
         </label>
@@ -17,9 +20,9 @@
         <label>
             Weight (kg) <input type="number" formControlName="weight" min="0" required />
         </label>
-        <menu>
-            <button type="submit" [disabled]="form.invalid || creating">Save</button>
-            <button type="button" (click)="closeDialog()">Cancel</button>
+        <menu class="modal-actions">
+            <button type="submit" class="btn-submit-create-dog" [disabled]="form.invalid || creating">Save</button>
+            <button type="button" class="btn-cancel" (click)="closeDialog()">Cancel</button>
         </menu>
     </form>
 </dialog>
@@ -27,8 +30,8 @@
     <h3>Delete dog?</h3>
     <p *ngIf="pendingDeleteName">Are you sure you want to delete <strong>{{pendingDeleteName }}</strong></p>
     <menu>
-        <button type="button" class="btn-delete" (click)="confirmDelete()">Delete</button>
-        <button type="button" (click)="cancelDelete()">Cancel</button>
+        <button type="button" class="btn-confirm-delete-dog" (click)="confirmDelete()">Delete</button>
+        <button type="button" class="btn-cancel" (click)="cancelDelete()">Cancel</button>
     </menu>
 </dialog>
 <!-- List of registered dogs -->
