@@ -65,8 +65,32 @@ dialog::backdrop {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
 }
 
-//The body of "Add Dog" modal
-.modal-form,
+//Body for "Add Dog" modal
+.modal-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1rem;
+    padding: 1rem 1.25rem;
+}
+
+@media (max-width: 520px) {
+    .modal-form { grid-template-columns: 1fr; }
+}
+
+.modal-form > label {
+    display: grid;
+    gap: .4rem;
+    margin-bottom: .25rem;
+}
+
+.modal-form > .modal-actions {
+    grid-column: 1 / -1;
+    margin-top: .5rem;
+    padding-top: .75rem;
+    border-top: 1px solid #f1f3f5;
+}
+
+//Body for "Delete" modal
 .modal-body {
     display: block;
     background: #fff;
