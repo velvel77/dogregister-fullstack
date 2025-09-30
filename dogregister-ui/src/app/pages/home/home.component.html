@@ -26,10 +26,17 @@
         </menu>
     </form>
 </dialog>
-<dialog #confirmDialog>
-    <h3>Delete dog?</h3>
-    <p *ngIf="pendingDeleteName">Are you sure you want to delete <strong>{{pendingDeleteName }}</strong></p>
-    <menu>
+<dialog #confirmDialog aria-labelledby="confirmTitle" aria-modal="true">
+    <header class="modal-header">
+        <h3 id="confirmTitle">Delete dog?</h3>
+        <button type="button" class="btn-close" (click)="cancelDelete()" aria-label="Close Dialog">x</button>
+    </header>
+
+    <section class="modal-body">
+        <p *ngIf="pendingDeleteName">Are you sure you want to delete <strong>{{pendingDeleteName }}</strong>?</p>
+    </section>
+
+    <menu class="modal-actions">
         <button type="button" class="btn-confirm-delete-dog" (click)="confirmDelete()">Delete</button>
         <button type="button" class="btn-cancel" (click)="cancelDelete()">Cancel</button>
     </menu>
