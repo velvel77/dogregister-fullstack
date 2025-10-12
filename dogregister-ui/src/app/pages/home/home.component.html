@@ -5,7 +5,9 @@
 <dialog #dogDialog aria-labelledby="addDogTitle" aria-modal="true">
     <header class="modal-header">
         <h2 id="addDogTitle">Add a new dog</h2>
-        <button type="button" class="btn-close" (click)="closeDialog()" aria-label="Close dialog">x</button>
+        <button type="button" class="btn-close" (click)="closeDialog()" aria-label="Close dialog">
+            <lucide-icon name="x" size="20"></lucide-icon>
+        </button>
     </header>
     <form [formGroup]="form" (ngSubmit)="onCreate()" class="modal-form">
         <label>
@@ -70,7 +72,7 @@
                                 class="btn-delete"
                                 (click)="askDelete(d)"
                                 [attr.aria-label]="'Delete ' + d.name">
-                            Delete
+                            <lucide-angular name="trash-2" size="18"></lucide-angular>
                         </button>
                     </td>
                 </tr>
