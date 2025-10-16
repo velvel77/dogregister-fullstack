@@ -4,12 +4,12 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Observable, switchMap, startWith } from 'rxjs';
 import { Dog, CreateDog } from '../../models/dog';
 import { DogService } from '../../services/dog.service';
-import { LucideAngularModule } from 'lucide-angular';
+import { IconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+  imports: [CommonModule, ReactiveFormsModule, IconComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
