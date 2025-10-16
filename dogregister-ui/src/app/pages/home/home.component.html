@@ -6,7 +6,7 @@
     <header class="modal-header">
         <h2 id="addDogTitle">Add a new dog</h2>
         <button type="button" class="btn-close" (click)="closeDialog()" aria-label="Close dialog">
-            <lucide-icon name="x" size="20"></lucide-icon>
+            <app-icon name="x" size="20"></app-icon>
         </button>
     </header>
     <form [formGroup]="form" (ngSubmit)="onCreate()" class="modal-form">
@@ -72,7 +72,7 @@
                                 class="btn-delete"
                                 (click)="askDelete(d)"
                                 [attr.aria-label]="'Delete ' + d.name">
-                            <lucide-angular name="trash-2" size="18"></lucide-angular>
+                            <app-icon name="trash-2" size="18"></app-icon>
                         </button>
                     </td>
                 </tr>
