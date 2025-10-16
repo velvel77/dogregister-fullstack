@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:ssr": "ng build --configuration=production --ssr",
+    "build:ssr": "ng build --configuration=production --ssr --prerender=false",
     "serve:ssr:dogregister-ui": "node dist/dogregister-ui/server/server.mjs"
   },
   "private": true,
